@@ -346,6 +346,16 @@ main {
   margin-bottom: 6px;
 }
 
+.student-avatar-photo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 12px;
+  display: block;
+  border: 2px solid var(--border);
+}
+
 .student-notes {
   font-size: 0.82rem;
   color: var(--muted);
