@@ -549,6 +549,13 @@ footer {
 .tag-piml       { background: #d1fae5; color: #065f46; }
 .tag-ds         { background: #fce7f3; color: #9d174d; }
 .tag-kw         { background: #f1f5f9; color: #334155; }
+.tag-kw-teal    { background: #ccfbf1; color: #0f766e; }
+.tag-kw-amber   { background: #fef3c7; color: #92400e; }
+.tag-kw-indigo  { background: #e0e7ff; color: #3730a3; }
+.tag-kw-violet  { background: #ede9fe; color: #6d28d9; }
+.tag-kw-rose    { background: #ffe4e6; color: #9f1239; }
+.tag-kw-sky     { background: #e0f2fe; color: #0369a1; }
+.tag-kw-lime    { background: #ecfccb; color: #3f6212; }
 
 .tag-award { background: #fef9c3; color: #713f12; }
 
