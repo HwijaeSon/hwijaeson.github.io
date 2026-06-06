@@ -5,111 +5,125 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Travel – Hwijae Son</title>
   <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    #globe-wrap {
+    #map {
       width: 100%;
-      height: 500px;
-      border-radius: 16px;
-      overflow: hidden;
+      height: 480px;
+      border-radius: 14px;
       border: 1px solid var(--border);
       margin-bottom: 32px;
-      background: #070d1a;
-      position: relative;
+      z-index: 0;
     }
 
-    .globe-hint {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.75rem;
-      color: rgba(255,255,255,.45);
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    .trip-cards {
+    /* ── Fancy label pin ── */
+    .fpin {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.28));
+      transition: filter .15s;
     }
+    .fpin:hover { filter: drop-shadow(0 3px 10px rgba(0,0,0,.45)); }
+
+    .fpin-label {
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      letter-spacing: .02em;
+      transition: transform .15s;
+    }
+    .fpin:hover .fpin-label { transform: scale(1.07); }
+
+    .fpin-stem {
+      width: 2px;
+      height: 9px;
+    }
+
+    .fpin-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+
+    /* ── Leaflet popup ── */
+    .leaflet-popup-content-wrapper {
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.15);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .leaflet-popup-content { margin: 10px 14px; font-size: 0.85rem; line-height: 1.5; }
+    .popup-name { font-weight: 700; color: #1a2e4a; margin-bottom: 2px; }
+    .popup-city { color: #2563eb; font-size: 0.8rem; }
+    .popup-date { color: #6b7280; font-size: 0.78rem; }
+
+    /* ── Trip cards ── */
+    .trip-cards { display: flex; flex-direction: column; gap: 10px; }
 
     .trip-card {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       align-items: flex-start;
-      padding: 16px 20px;
+      padding: 14px 18px;
       border: 1px solid var(--border);
       border-radius: 12px;
       background: var(--bg-alt);
       cursor: pointer;
       transition: box-shadow .15s, border-color .15s;
     }
-
-    .trip-card:hover {
-      box-shadow: 0 2px 12px rgba(0,0,0,.07);
-      border-color: #bfdbfe;
-    }
-
-    .trip-card.active {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
-    }
+    .trip-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.07); border-color: #bfdbfe; }
+    .trip-card.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
 
     .trip-dot {
-      width: 11px;
-      height: 11px;
+      width: 11px; height: 11px;
       border-radius: 50%;
       flex-shrink: 0;
       margin-top: 5px;
     }
 
     .trip-body { flex: 1; }
+    .trip-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 2px; }
+    .trip-event { font-weight: 700; font-size: 0.95rem; color: var(--navy); }
+    .trip-date { font-size: 0.8rem; color: var(--muted); }
+    .trip-badge {
+      font-size: 0.7rem; font-weight: 600;
+      padding: 1px 7px; border-radius: 99px;
+    }
+    .trip-location { font-size: 0.83rem; color: var(--accent); }
 
-    .trip-header {
+    /* ── Tile switcher ── */
+    .tile-switcher {
       display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 3px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
     }
-
-    .trip-event {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--navy);
-    }
-
-    .trip-date {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .trip-location {
-      font-size: 0.84rem;
-      color: var(--accent);
-      margin-bottom: 5px;
-    }
-
-    .trip-talk {
-      font-size: 0.87rem;
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    .trip-type-badge {
-      display: inline-block;
-      font-size: 0.7rem;
+    .tile-btn {
+      font-size: 0.78rem;
       font-weight: 600;
-      padding: 1px 7px;
+      padding: 5px 14px;
       border-radius: 99px;
-      margin-left: 4px;
-      vertical-align: middle;
+      border: 1px solid var(--border);
+      background: var(--bg-alt);
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .12s, color .12s, border-color .12s;
+    }
+    .tile-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .tile-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
-    @media (max-width: 640px) {
-      #globe-wrap { height: 360px; }
-    }
+    @media (max-width: 640px) { #map { height: 320px; } }
   </style>
 </head>
 <body>
@@ -130,13 +144,11 @@
   <div class="page-header">
     <h1>Travel</h1>
     <p style="color:var(--muted);font-size:0.92rem;margin-top:6px;">
-      International conferences &amp; workshops — click a marker or a card
+      International conferences &amp; workshops
     </p>
   </div>
 
-  <div id="globe-wrap">
-    <span class="globe-hint">🖱 drag to rotate · scroll to zoom · click a pin</span>
-  </div>
+  <div id="map"></div>
 
   <div class="section" style="margin-top:0;">
     <h2>Visits</h2>
@@ -148,136 +160,82 @@
   &copy; 2026 Hwijae Son · Konkuk University
 </footer>
 
-<script src="https://unpkg.com/globe.gl@2.30.0/dist/globe.gl.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* ══════════════════════════════════════════
-   TRIP DATA  — add / edit entries here
-   type: 'conf' | 'workshop' | 'talk'
-══════════════════════════════════════════ */
+/* ══════════════════════════════════════
+   TRIP DATA — add / edit entries here
+   type: 'conf' | 'workshop'
+   short: short label shown on map
+══════════════════════════════════════ */
 const trips = [
-  {
-    id: 'iciam2031',
-    name: 'ICIAM 2031',
-    city: 'Tokyo, Japan',
-    lat: 35.6762, lng: 139.6503,
-    date: '2031.07',
-    talk: '',
-    type: 'conf',
-  },
-  {
-    id: 'wccm2026',
-    name: 'WCCM-ECCOMAS 2026',
-    city: 'Munich, Germany',
-    lat: 48.1351, lng: 11.5820,
-    date: '2026.07',
-    talk: '',
-    type: 'conf',
-  },
-  {
-    id: 'icml2026',
-    name: 'ICML 2026',
-    city: 'Hawaii, USA',
-    lat: 21.3069, lng: -157.8583,
-    date: '2026.07',
-    talk: '',
-    type: 'conf',
-  },
-  {
-    id: 'apcom2025',
-    name: 'APCOM-ACCM 2025',
-    city: 'Brisbane, Australia',
-    lat: -27.4698, lng: 153.0251,
-    date: '2025.12',
-    talk: 'Physics-informed Deep Inverse Operator Networks for solving PDE inverse problems',
-    type: 'conf',
-  },
-  {
-    id: 'a3_2025',
-    name: '8th Joint Conference of A3 Foresight Program',
-    city: 'Yanji, China',
-    lat: 42.9066, lng: 129.5113,
-    date: '2025.08',
-    talk: 'Sobolev acceleration for neural networks',
-    type: 'workshop',
-  },
-  {
-    id: 'siam2025',
-    name: 'SIAM Annual Meeting 2025',
-    city: 'Montreal, Canada',
-    lat: 45.5017, lng: -73.5673,
-    date: '2025.07',
-    talk: 'Physics-informed Deep Inverse Operator Networks for solving PDE inverse problems',
-    type: 'conf',
-  },
-  {
-    id: 'iclr2025',
-    name: 'ICLR 2025',
-    city: 'Singapore',
-    lat: 1.3521, lng: 103.8198,
-    date: '2025.04',
-    talk: 'Physics-Informed Deep Inverse Operator Networks for Solving PDE Inverse Problems',
-    type: 'conf',
-  },
-  {
-    id: 'vk2025',
-    name: '3rd Vietnam–Korea Joint Workshop on Selected Topics in Mathematics',
-    city: 'Da Nang, Vietnam',
-    lat: 16.0544, lng: 108.2022,
-    date: '2025.01',
-    talk: 'Physics-informed machine learning for inverse problems',
-    type: 'workshop',
-  },
-  {
-    id: 'a3_2024',
-    name: '7th Joint Conference of A3 Foresight Program',
-    city: 'Wuhan, China',
-    lat: 30.5928, lng: 114.3055,
-    date: '2024.09',
-    talk: 'Physics-informed machine learning for inverse problems',
-    type: 'workshop',
-  },
+  { id:'iciam2023',  name:'ICIAM 2023',                                         short:"ICIAM '23",  city:'Tokyo, Japan',       lat:35.6762,  lng:139.6503,  date:'2023.08', type:'conf' },
+  { id:'icml2023',   name:'ICML 2023',                                          short:"ICML '23",   city:'Hawaii, USA',        lat:21.3069,  lng:-157.8583, date:'2023.07', type:'conf' },
+  { id:'a3_2024',    name:'7th A3 Foresight Conference',                        short:"A3 '24",     city:'Wuhan, China',       lat:30.5928,  lng:114.3055,  date:'2024.09', type:'workshop' },
+  { id:'vk2025',     name:'3rd Vietnam–Korea Joint Workshop',                   short:"VK WS '25",  city:'Da Nang, Vietnam',   lat:16.0544,  lng:108.2022,  date:'2025.01', type:'workshop' },
+  { id:'iclr2025',   name:'ICLR 2025',                                          short:"ICLR '25",   city:'Singapore',          lat:1.3521,   lng:103.8198,  date:'2025.04', type:'conf' },
+  { id:'siam2025',   name:'SIAM Annual Meeting 2025',                           short:"SIAM '25",   city:'Montreal, Canada',   lat:45.5017,  lng:-73.5673,  date:'2025.07', type:'conf' },
+  { id:'a3_2025',    name:'8th A3 Foresight Conference',                        short:"A3 '25",     city:'Yanji, China',       lat:42.9066,  lng:129.5113,  date:'2025.08', type:'workshop' },
+  { id:'apcom2025',  name:'APCOM-ACCM 2025',                                    short:"APCOM '25",  city:'Brisbane, Australia',lat:-27.4698, lng:153.0251,  date:'2025.12', type:'conf' },
+  { id:'wccm2026',   name:'WCCM-ECCOMAS 2026',                                  short:"WCCM '26",   city:'Munich, Germany',    lat:48.1351,  lng:11.5820,   date:'2026.07', type:'conf' },
+  { id:'icml2026',   name:'ICML 2026',                                          short:"ICML '26",   city:'Hawaii, USA',        lat:21.5,     lng:-158.0,    date:'2026.07', type:'conf' },
 ];
 
-/* ── Color / label maps ── */
-const COLOR = { conf: '#2563eb', workshop: '#10b981', talk: '#f59e0b' };
-const BADGE_BG  = { conf: '#dbeafe', workshop: '#d1fae5', talk: '#fef3c7' };
-const BADGE_FG  = { conf: '#1e40af', workshop: '#065f46', talk: '#92400e' };
-const LABEL_STR = { conf: 'Conference', workshop: 'Workshop', talk: 'Invited Talk' };
+const COLOR     = { conf:'#2563eb', workshop:'#10b981' };
+const BADGE_BG  = { conf:'#dbeafe', workshop:'#d1fae5' };
+const BADGE_FG  = { conf:'#1e40af', workshop:'#065f46' };
+const LABEL     = { conf:'Conference', workshop:'Workshop' };
 
-/* ── Globe ── */
-const globeEl = document.getElementById('globe-wrap');
+/* ── Map ── */
+const map = L.map('map', { center: [28, 30], zoom: 2, minZoom: 1 });
 
-const myGlobe = Globe()
-  .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-  .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-  .pointsData(trips)
-  .pointLat('lat')
-  .pointLng('lng')
-  .pointColor(d => COLOR[d.type])
-  .pointRadius(0.55)
-  .pointAltitude(0.01)
-  .pointLabel(d => `
-    <div style="background:#1a2e4a;color:#fff;padding:8px 12px;border-radius:8px;
-                font-size:13px;max-width:200px;line-height:1.45;pointer-events:none;">
-      <strong>${d.name}</strong><br/>
-      <span style="color:#93c5fd">📍 ${d.city}</span><br/>
-      <span style="color:#cbd5e1">${d.date}</span>
-    </div>`)
-  .onPointClick(d => {
-    myGlobe.controls().autoRotate = false;
-    myGlobe.pointOfView({ lat: d.lat, lng: d.lng, altitude: 1.6 }, 900);
-    focusCard(d.id);
-  })
-  (globeEl);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri',
+  maxZoom: 19,
+}).addTo(map);
 
-myGlobe.controls().autoRotate = true;
-myGlobe.controls().autoRotateSpeed = 0.35;
-myGlobe.pointOfView({ altitude: 2.4 });
+const markerMap = {};
+
+trips.forEach(trip => {
+  const c = COLOR[trip.type];
+
+  const html = `
+    <div class="fpin">
+      <div class="fpin-label" style="background:${c}">${trip.short}</div>
+      <div class="fpin-stem"  style="background:${c}"></div>
+      <div class="fpin-dot"   style="background:${c}"></div>
+    </div>`;
+
+  // Estimate label width: ~7.5px per char + 20px padding
+  const w = trip.short.length * 7.5 + 20;
+  const h = 4 + 18 + 9 + 7; // padding + label + stem + dot
+
+  const icon = L.divIcon({
+    className: '',
+    html,
+    iconSize: [w, h],
+    iconAnchor: [w / 2, h],
+    popupAnchor: [0, -h],
+  });
+
+  const marker = L.marker([trip.lat, trip.lng], { icon })
+    .addTo(map)
+    .bindPopup(`
+      <div class="popup-name">${trip.name}</div>
+      <div class="popup-city">📍 ${trip.city}</div>
+      <div class="popup-date">${trip.date}</div>
+    `);
+
+  marker.on('click', () => focusCard(trip.id));
+  markerMap[trip.id] = marker;
+});
 
 /* ── Cards ── */
 const listEl = document.getElementById('trip-list');
 
-trips.forEach(trip => {
+// Sort newest first
+const sorted = [...trips].sort((a, b) => b.date.localeCompare(a.date));
+
+sorted.forEach(trip => {
   const card = document.createElement('div');
   card.className = 'trip-card';
   card.id = 'card-' + trip.id;
@@ -286,16 +244,15 @@ trips.forEach(trip => {
     <div class="trip-body">
       <div class="trip-header">
         <span class="trip-event">${trip.name}</span>
-        <span class="trip-type-badge" style="background:${BADGE_BG[trip.type]};color:${BADGE_FG[trip.type]}">${LABEL_STR[trip.type]}</span>
+        <span class="trip-badge" style="background:${BADGE_BG[trip.type]};color:${BADGE_FG[trip.type]}">${LABEL[trip.type]}</span>
         <span class="trip-date">${trip.date}</span>
       </div>
       <div class="trip-location">📍 ${trip.city}</div>
-      <div class="trip-talk">${trip.talk}</div>
     </div>`;
 
   card.addEventListener('click', () => {
-    myGlobe.controls().autoRotate = false;
-    myGlobe.pointOfView({ lat: trip.lat, lng: trip.lng, altitude: 1.6 }, 900);
+    map.setView([trip.lat, trip.lng], 4, { animate: true });
+    markerMap[trip.id].openPopup();
     focusCard(trip.id);
   });
 
