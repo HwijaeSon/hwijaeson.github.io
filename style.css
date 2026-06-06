@@ -103,13 +103,12 @@ main {
 }
 
 .profile-avatar {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
+  width: 160px;
+  height: auto;
+  border-radius: 8px;
   object-fit: cover;
-  border: 3px solid var(--border);
+  border: 1px solid var(--border);
   flex-shrink: 0;
-  background: var(--bg-alt);
 }
 
 .profile-avatar-placeholder {
