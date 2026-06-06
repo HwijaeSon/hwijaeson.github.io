@@ -5,6 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Publications – Hwijae Son</title>
   <link rel="stylesheet" href="../style.css" />
+  <style>
+    /* ── Section-level accordion ── */
+    .sec-group {
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .sec-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      background: var(--navy);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: left;
+      transition: background .15s;
+    }
+
+    .sec-toggle:hover { background: #223755; }
+
+    .sec-toggle .sec-count {
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: rgba(255,255,255,.18);
+      border-radius: 99px;
+      padding: 2px 10px;
+      margin-left: 10px;
+    }
+
+    .sec-toggle .sec-icon {
+      font-size: 1rem;
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .sec-group.open .sec-icon { transform: rotate(180deg); }
+
+    .sec-body {
+      display: none;
+      padding: 8px 0 12px;
+      background: var(--bg);
+    }
+
+    .sec-group.open .sec-body { display: block; }
+
+    /* ── Year label (static, no button) ── */
+    .year-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      padding: 10px 22px 4px;
+      margin-top: 4px;
+    }
+
+    .year-label:first-child { margin-top: 0; }
+  </style>
 </head>
 <body>
 
@@ -25,21 +91,15 @@
   </div>
 
 
-  <!-- ════════════════════════════════════
-       INTERNATIONAL JOURNAL
-  ════════════════════════════════════ -->
-
-  <div class="section" style="margin-top: 0;">
-    <h2>International Journal</h2>
-  </div>
-
-  <!-- Under Review / In Preparation -->
-  <div class="year-group open" id="group-review">
-    <button class="year-toggle" onclick="toggleGroup('group-review')">
-      <span>Under Review &amp; In Preparation <span class="year-count" id="count-review"></span></span>
-      <span class="toggle-icon">▾</span>
+  <!-- ══════════════════════════════════
+       PREPRINTS
+  ══════════════════════════════════ -->
+  <div class="sec-group open" id="sec-preprints">
+    <button class="sec-toggle" onclick="toggleSec('sec-preprints')">
+      <span>Preprints &amp; In Preparation <span class="sec-count" id="cnt-preprints"></span></span>
+      <span class="sec-icon">▾</span>
     </button>
-    <div class="year-body">
+    <div class="sec-body">
 
       <div class="pub-item" data-type="preprint" data-topic="piml">
         <div class="pub-item-num">[22]</div>
@@ -110,13 +170,18 @@
     </div>
   </div>
 
-  <!-- 2026 -->
-  <div class="year-group open" id="group-2026">
-    <button class="year-toggle" onclick="toggleGroup('group-2026')">
-      <span>2026 <span class="year-count" id="count-2026"></span></span>
-      <span class="toggle-icon">▾</span>
+
+  <!-- ══════════════════════════════════
+       INTERNATIONAL JOURNALS
+  ══════════════════════════════════ -->
+  <div class="sec-group open" id="sec-intl">
+    <button class="sec-toggle" onclick="toggleSec('sec-intl')">
+      <span>International Journals <span class="sec-count" id="cnt-intl"></span></span>
+      <span class="sec-icon">▾</span>
     </button>
-    <div class="year-body">
+    <div class="sec-body">
+
+      <div class="year-label">2026</div>
 
       <div class="pub-item" data-type="journal" data-topic="piml">
         <div class="pub-item-num">[16]</div>
@@ -169,16 +234,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- 2025 -->
-  <div class="year-group open" id="group-2025">
-    <button class="year-toggle" onclick="toggleGroup('group-2025')">
-      <span>2025 <span class="year-count" id="count-2025"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2025</div>
 
       <div class="pub-item" data-type="journal" data-topic="piml">
         <div class="pub-item-num">[13]</div>
@@ -197,16 +253,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- 2024 -->
-  <div class="year-group open" id="group-2024">
-    <button class="year-toggle" onclick="toggleGroup('group-2024')">
-      <span>2024 <span class="year-count" id="count-2024"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2024</div>
 
       <div class="pub-item" data-type="journal" data-topic="piml">
         <div class="pub-item-num">[12]</div>
@@ -225,16 +272,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- 2023 -->
-  <div class="year-group open" id="group-2023">
-    <button class="year-toggle" onclick="toggleGroup('group-2023')">
-      <span>2023 <span class="year-count" id="count-2023"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2023</div>
 
       <div class="pub-item" data-type="journal" data-topic="piml">
         <div class="pub-item-num">[11]</div>
@@ -321,16 +359,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- 2022 -->
-  <div class="year-group open" id="group-2022">
-    <button class="year-toggle" onclick="toggleGroup('group-2022')">
-      <span>2022 <span class="year-count" id="count-2022"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2022</div>
 
       <div class="pub-item" data-type="journal" data-topic="piml">
         <div class="pub-item-num">[6]</div>
@@ -349,16 +378,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- 2021 -->
-  <div class="year-group open" id="group-2021">
-    <button class="year-toggle" onclick="toggleGroup('group-2021')">
-      <span>2021 <span class="year-count" id="count-2021"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2021</div>
 
       <div class="pub-item" data-type="journal" data-topic="piml">
         <div class="pub-item-num">[5]</div>
@@ -394,16 +414,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- 2020 -->
-  <div class="year-group open" id="group-2020">
-    <button class="year-toggle" onclick="toggleGroup('group-2020')">
-      <span>2020 <span class="year-count" id="count-2020"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2020</div>
 
       <div class="pub-item" data-type="journal" data-topic="ds">
         <div class="pub-item-num">[3]</div>
@@ -439,16 +450,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- 2019 -->
-  <div class="year-group open" id="group-2019">
-    <button class="year-toggle" onclick="toggleGroup('group-2019')">
-      <span>2019 <span class="year-count" id="count-2019"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2019</div>
 
       <div class="pub-item" data-type="journal" data-topic="ds">
         <div class="pub-item-num">[1]</div>
@@ -471,21 +473,17 @@
   </div>
 
 
-  <!-- ════════════════════════════════════
-       CONFERENCE
-  ════════════════════════════════════ -->
-
-  <div class="section">
-    <h2>Conference</h2>
-  </div>
-
-  <!-- Conference 2025 -->
-  <div class="year-group open" id="group-c2025">
-    <button class="year-toggle" onclick="toggleGroup('group-c2025')">
-      <span>2025 <span class="year-count" id="count-c2025"></span></span>
-      <span class="toggle-icon">▾</span>
+  <!-- ══════════════════════════════════
+       CONFERENCE PROCEEDINGS
+  ══════════════════════════════════ -->
+  <div class="sec-group open" id="sec-conf">
+    <button class="sec-toggle" onclick="toggleSec('sec-conf')">
+      <span>Conference Proceedings <span class="sec-count" id="cnt-conf"></span></span>
+      <span class="sec-icon">▾</span>
     </button>
-    <div class="year-body">
+    <div class="sec-body">
+
+      <div class="year-label">2025</div>
 
       <div class="pub-item" data-type="conference" data-topic="piml">
         <div class="pub-item-num">[4]</div>
@@ -538,16 +536,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- Conference 2024 -->
-  <div class="year-group open" id="group-c2024">
-    <button class="year-toggle" onclick="toggleGroup('group-c2024')">
-      <span>2024 <span class="year-count" id="count-c2024"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2024</div>
 
       <div class="pub-item" data-type="conference" data-topic="ds">
         <div class="pub-item-num">[1]</div>
@@ -569,21 +558,17 @@
   </div>
 
 
-  <!-- ════════════════════════════════════
-       DOMESTIC JOURNAL
-  ════════════════════════════════════ -->
-
-  <div class="section">
-    <h2>Domestic Journal &amp; Conference Proceedings</h2>
-  </div>
-
-  <!-- Domestic 2025 -->
-  <div class="year-group open" id="group-d2025">
-    <button class="year-toggle" onclick="toggleGroup('group-d2025')">
-      <span>2025 <span class="year-count" id="count-d2025"></span></span>
-      <span class="toggle-icon">▾</span>
+  <!-- ══════════════════════════════════
+       DOMESTIC JOURNALS
+  ══════════════════════════════════ -->
+  <div class="sec-group open" id="sec-domestic">
+    <button class="sec-toggle" onclick="toggleSec('sec-domestic')">
+      <span>Domestic Journals &amp; Conference Proceedings <span class="sec-count" id="cnt-domestic"></span></span>
+      <span class="sec-icon">▾</span>
     </button>
-    <div class="year-body">
+    <div class="sec-body">
+
+      <div class="year-label">2025</div>
 
       <div class="pub-item" data-type="journal" data-topic="ds">
         <div class="pub-item-num">[7]</div>
@@ -597,16 +582,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- Domestic 2024 -->
-  <div class="year-group open" id="group-d2024">
-    <button class="year-toggle" onclick="toggleGroup('group-d2024')">
-      <span>2024 <span class="year-count" id="count-d2024"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2024</div>
 
       <div class="pub-item" data-type="conference" data-topic="piml">
         <div class="pub-item-num">[6]</div>
@@ -624,16 +600,7 @@
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- Domestic 2023 -->
-  <div class="year-group open" id="group-d2023">
-    <button class="year-toggle" onclick="toggleGroup('group-d2023')">
-      <span>2023 <span class="year-count" id="count-d2023"></span></span>
-      <span class="toggle-icon">▾</span>
-    </button>
-    <div class="year-body">
+      <div class="year-label">2023</div>
 
       <div class="pub-item" data-type="conference" data-topic="ds">
         <div class="pub-item-num">[5]</div>
@@ -725,59 +692,26 @@
 </footer>
 
 <script>
-  // ── Accordion ──
-  function toggleGroup(id) {
+  function toggleSec(id) {
     document.getElementById(id).classList.toggle('open');
     updateCounts();
   }
 
-  // ── Filter state ──
-  let activeType  = 'all';
-  let activeTopic = 'all';
-
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filterGroup = btn.dataset.filter;
-      const value = btn.dataset.value;
-
-      document.querySelectorAll(`.filter-btn[data-filter="${filterGroup}"]`).forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      if (filterGroup === 'type')  activeType  = value;
-      if (filterGroup === 'topic') activeTopic = value;
-
-      applyFilters();
-    });
-  });
-
-  function applyFilters() {
-    const items = document.querySelectorAll('.pub-item');
-
-    items.forEach(item => {
-      const typeMatch  = activeType  === 'all' || item.dataset.type  === activeType;
-      const topicMatch = activeTopic === 'all' || item.dataset.topic === activeTopic;
-      item.classList.toggle('hidden', !(typeMatch && topicMatch));
-    });
-
-    document.querySelectorAll('.year-group').forEach(group => {
-      const visible = group.querySelectorAll('.pub-item:not(.hidden)').length;
-      group.style.display = visible === 0 ? 'none' : '';
-    });
-
-    updateCounts();
-  }
-
   function updateCounts() {
-    document.querySelectorAll('.year-group').forEach(group => {
-      const id = group.id;
-      const countEl = document.getElementById('count-' + id.replace('group-', ''));
-      if (!countEl) return;
-      const visible = group.querySelectorAll('.pub-item:not(.hidden)').length;
-      countEl.textContent = visible;
-    });
+    const map = {
+      'sec-preprints': 'cnt-preprints',
+      'sec-intl':      'cnt-intl',
+      'sec-conf':      'cnt-conf',
+      'sec-domestic':  'cnt-domestic',
+    };
+    for (const [secId, cntId] of Object.entries(map)) {
+      const sec = document.getElementById(secId);
+      const el  = document.getElementById(cntId);
+      if (!sec || !el) continue;
+      el.textContent = sec.querySelectorAll('.pub-item').length;
+    }
   }
 
-  // Init counts on load
   updateCounts();
 </script>
 
