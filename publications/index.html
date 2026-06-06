@@ -67,6 +67,42 @@
       color: var(--navy);
       border-bottom: 1px solid var(--border);
     }
+
+    /* ── Tag filter ── */
+    .tag { cursor: pointer; transition: opacity .15s, outline .1s; }
+    .tag:hover { opacity: .8; }
+    .tag.tag-active {
+      outline: 2px solid currentColor;
+      outline-offset: 1px;
+    }
+
+    #filter-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 10px 16px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      color: var(--navy);
+    }
+    #filter-bar strong { color: var(--accent); }
+    #filter-clear {
+      margin-left: auto;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    #filter-clear:hover { background: var(--border); color: var(--navy); }
+
+    .year-box.all-hidden { display: none; }
   </style>
 </head>
 <body>
@@ -85,6 +121,11 @@
 <main>
   <div class="page-header">
     <h1>Publications</h1>
+  </div>
+
+  <div id="filter-bar">
+    <span>Showing: <strong id="filter-label"></strong></span>
+    <button id="filter-clear" onclick="clearFilter()">✕ Clear filter</button>
   </div>
 
 
@@ -677,6 +718,8 @@
 </footer>
 
 <script>
+  let activeFilter = null;
+
   function toggleSec(id) {
     document.getElementById(id).classList.toggle('open');
     updateCounts();
@@ -693,8 +736,61 @@
       const sec = document.getElementById(secId);
       const el  = document.getElementById(cntId);
       if (!sec || !el) continue;
-      el.textContent = sec.querySelectorAll('.pub-item').length;
+      const visible = [...sec.querySelectorAll('.pub-item')].filter(i => !i.classList.contains('hidden')).length;
+      el.textContent = visible;
     }
+    // Hide year-boxes where all items are hidden
+    document.querySelectorAll('.year-box').forEach(box => {
+      const anyVisible = [...box.querySelectorAll('.pub-item')].some(i => !i.classList.contains('hidden'));
+      box.classList.toggle('all-hidden', !anyVisible);
+    });
+  }
+
+  // Tag click — event delegation
+  document.addEventListener('click', function(e) {
+    const tag = e.target.closest('.tag');
+    if (!tag) return;
+
+    const tagClass = [...tag.classList].find(c => c !== 'tag');
+    if (!tagClass) return;
+
+    if (activeFilter === tagClass) {
+      clearFilter();
+    } else {
+      applyFilter(tagClass, tag.textContent.trim());
+    }
+  });
+
+  function applyFilter(tagClass, label) {
+    activeFilter = tagClass;
+
+    // Expand all sections
+    document.querySelectorAll('.sec-group').forEach(s => s.classList.add('open'));
+
+    // Show/hide items
+    document.querySelectorAll('.pub-item').forEach(item => {
+      item.classList.toggle('hidden', !item.querySelector('.' + tagClass));
+    });
+
+    // Highlight active tags
+    document.querySelectorAll('.tag').forEach(t => {
+      t.classList.toggle('tag-active', t.classList.contains(tagClass));
+    });
+
+    // Show filter bar
+    document.getElementById('filter-label').textContent = label;
+    document.getElementById('filter-bar').style.display = 'flex';
+
+    updateCounts();
+  }
+
+  function clearFilter() {
+    activeFilter = null;
+    document.querySelectorAll('.pub-item').forEach(i => i.classList.remove('hidden'));
+    document.querySelectorAll('.tag').forEach(t => t.classList.remove('tag-active'));
+    document.querySelectorAll('.year-box').forEach(b => b.classList.remove('all-hidden'));
+    document.getElementById('filter-bar').style.display = 'none';
+    updateCounts();
   }
 
   updateCounts();
