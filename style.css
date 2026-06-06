@@ -1,0 +1,562 @@
+/* =====================
+   Hwijae Son – Academic Homepage
+   ===================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --navy: #1a2e4a;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --bg: #ffffff;
+  --bg-alt: #f9fafb;
+  --max-w: 860px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ── Navigation ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--navy);
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+
+nav .nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 56px;
+}
+
+nav .nav-brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  margin-right: auto;
+  white-space: nowrap;
+}
+
+nav a {
+  color: rgba(255,255,255,.82);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background .15s, color .15s;
+}
+
+nav a:hover,
+nav a.active {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+}
+
+/* ── Main Layout ── */
+main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* ── Page Header ── */
+.page-header {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ── Home Profile ── */
+.profile {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.profile-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg-alt);
+}
+
+.profile-avatar-placeholder {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.profile-info h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.profile-info .title {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+.profile-info p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+
+/* ── Contact Box ── */
+.contact-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-top: 32px;
+}
+
+.contact-box h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.contact-box table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.contact-box td {
+  padding: 4px 0;
+  font-size: 0.92rem;
+  vertical-align: top;
+}
+
+.contact-box td:first-child {
+  font-weight: 600;
+  color: var(--muted);
+  width: 90px;
+  padding-right: 16px;
+}
+
+/* ── Section headings ── */
+.section {
+  margin-top: 48px;
+}
+
+.section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Publications ── */
+.pub-list {
+  list-style: none;
+}
+
+.pub-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.pub-list li:last-child { border-bottom: none; }
+
+.pub-num {
+  font-weight: 700;
+  color: var(--accent);
+  margin-right: 6px;
+}
+
+.pub-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.badge-review {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-conf {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-award {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.pub-venue {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Talks ── */
+.talk-list {
+  list-style: none;
+}
+
+.talk-item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.93rem;
+}
+
+.talk-item:last-child { border-bottom: none; }
+
+.talk-date {
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding-top: 2px;
+}
+
+.talk-title { font-weight: 600; color: var(--navy); }
+.talk-venue { color: var(--muted); font-size: 0.88rem; }
+
+/* ── Projects ── */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.project-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.project-card .year {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 6px;
+}
+
+.project-card p {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.grant-list {
+  list-style: none;
+}
+
+.grant-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.93rem;
+}
+
+.grant-list li:last-child { border-bottom: none; }
+
+/* ── Students ── */
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.student-card {
+  text-align: center;
+  padding: 20px 16px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.student-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 auto 12px;
+}
+
+.student-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.student-notes {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.former-list {
+  list-style: none;
+}
+
+.former-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92rem;
+}
+
+.former-list li:last-child { border-bottom: none; }
+
+/* ── Links ── */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Filter Bar ── */
+.filter-bar {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.filter-btn {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+  font-family: inherit;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── Pub count badge ── */
+.year-count {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 1px 9px;
+  margin-left: 8px;
+}
+
+/* ── Accordion Year Groups ── */
+.year-group {
+  margin-bottom: 4px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.year-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--bg-alt);
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-align: left;
+  transition: background .15s;
+}
+
+.year-toggle:hover { background: #eef2f9; }
+
+.toggle-icon {
+  font-size: 1.1rem;
+  color: var(--muted);
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+
+.year-group.open .toggle-icon { transform: rotate(180deg); }
+
+.year-body {
+  display: none;
+  padding: 4px 0 8px;
+}
+
+.year-group.open .year-body { display: block; }
+
+/* ── Pub item (inside accordion) ── */
+.pub-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  align-items: flex-start;
+}
+
+.pub-item:last-child { border-bottom: none; }
+
+.pub-item.hidden { display: none; }
+
+.pub-item-num {
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+  min-width: 30px;
+}
+
+.pub-item-body { flex: 1; }
+
+.pub-item-title { margin-bottom: 4px; }
+
+.pub-item-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.pub-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  letter-spacing: .02em;
+}
+
+.tag-journal    { background: #dbeafe; color: #1e40af; }
+.tag-conference { background: #ede9fe; color: #5b21b6; }
+.tag-preprint   { background: #fef3c7; color: #92400e; }
+.tag-piml       { background: #d1fae5; color: #065f46; }
+.tag-ds         { background: #fce7f3; color: #9d174d; }
+
+.tag-award { background: #fef9c3; color: #713f12; }
+
+/* ── Empty state ── */
+.no-results {
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  display: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .profile { flex-direction: column; align-items: center; text-align: center; }
+  .project-grid { grid-template-columns: 1fr; }
+  .student-grid { grid-template-columns: repeat(2, 1fr); }
+  .talk-item { grid-template-columns: 1fr; gap: 4px; }
+  nav .nav-inner { gap: 2px; }
+  nav a { padding: 6px 8px; font-size: 0.82rem; }
+}
