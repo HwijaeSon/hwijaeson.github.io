@@ -592,11 +592,6 @@ footer {
   .profile-avatar { width: 130px; }
 
   .project-grid { grid-template-columns: 1fr; }
-  .student-grid { grid-template-columns: repeat(2, 1fr); }
+  .student-grid { grid-template-columns: 1fr; }
   .talk-item { grid-template-columns: 1fr; gap: 4px; }
-
-  /* Project cards: stack vertically */
-  .project-card { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .project-divider { width: 100%; height: 1px; }
-  .project-logo { width: 120px; height: 60px; }
 }
