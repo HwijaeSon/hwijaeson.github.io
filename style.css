@@ -572,19 +572,19 @@ footer {
 @media (max-width: 640px) {
   html, body { overflow-x: hidden; }
 
-  /* Nav: brand on its own row, links wrap below */
+  /* Nav: single scrollable row */
   nav .nav-inner {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 8px 12px;
-    gap: 2px 4px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    height: 48px;
+    padding: 0 12px;
+    gap: 2px;
   }
-  nav .nav-brand {
-    width: 100%;
-    padding-bottom: 4px;
-    font-size: 0.95rem;
-  }
-  nav a { padding: 4px 8px; font-size: 0.78rem; }
+  nav .nav-inner::-webkit-scrollbar { display: none; }
+  nav .nav-brand { flex-shrink: 0; font-size: 0.88rem; margin-right: 4px; }
+  nav a { flex-shrink: 0; padding: 4px 8px; font-size: 0.75rem; white-space: nowrap; }
 
   main { padding: 32px 16px 60px; }
 

@@ -64,32 +64,6 @@
     .popup-date { color: #6b7280; font-size: 0.78rem; }
 
 
-    /* ── Tile switcher ── */
-    .tile-switcher {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-    .tile-btn {
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 99px;
-      border: 1px solid var(--border);
-      background: var(--bg-alt);
-      color: var(--muted);
-      cursor: pointer;
-      font-family: inherit;
-      transition: background .12s, color .12s, border-color .12s;
-    }
-    .tile-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .tile-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
     @media (max-width: 640px) { #map { height: 320px; } }
   </style>
 </head>
@@ -113,14 +87,6 @@
     <p style="color:var(--muted);font-size:0.92rem;margin-top:6px;">
       International conferences &amp; workshops
     </p>
-  </div>
-
-  <div class="tile-switcher" id="tile-switcher">
-    <button class="tile-btn" data-style="voyager">Voyager</button>
-    <button class="tile-btn active" data-style="street">Street</button>
-    <button class="tile-btn" data-style="topo">Topo</button>
-    <button class="tile-btn" data-style="natgeo">NatGeo</button>
-    <button class="tile-btn" data-style="dark">Dark</button>
   </div>
 
   <div id="map"></div>
@@ -156,46 +122,13 @@ const BADGE_BG  = { conf:'#dbeafe', workshop:'#d1fae5' };
 const BADGE_FG  = { conf:'#1e40af', workshop:'#065f46' };
 const LABEL     = { conf:'Conference', workshop:'Workshop' };
 
-/* ── Tile styles ── */
-const TILES = {
-  voyager: {
-    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    opts: { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }
-  },
-  street: {
-    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-    opts: { attribution: 'Tiles &copy; Esri', maxZoom: 19 }
-  },
-  topo: {
-    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-    opts: { attribution: 'Tiles &copy; Esri', maxZoom: 19 }
-  },
-  natgeo: {
-    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
-    opts: { attribution: 'Tiles &copy; Esri &copy; National Geographic', maxZoom: 16 }
-  },
-  dark: {
-    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    opts: { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }
-  },
-};
-
 /* ── Map ── */
 const map = L.map('map', { center: [28, 30], zoom: 2, minZoom: 1 });
 
-let currentTile = L.tileLayer(TILES.street.url, TILES.street.opts).addTo(map);
-
-document.getElementById('tile-switcher').addEventListener('click', e => {
-  const btn = e.target.closest('.tile-btn');
-  if (!btn) return;
-  const style = btn.dataset.style;
-  if (!TILES[style]) return;
-  map.removeLayer(currentTile);
-  currentTile = L.tileLayer(TILES[style].url, TILES[style].opts).addTo(map);
-  currentTile.bringToBack();
-  document.querySelectorAll('.tile-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-});
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri',
+  maxZoom: 19,
+}).addTo(map);
 
 const markerMap = {};
 

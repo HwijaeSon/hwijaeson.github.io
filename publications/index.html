@@ -6,103 +6,73 @@
   <title>Publications – Hwijae Son</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
-    .sec-group {
-      margin-bottom: 12px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .sec-toggle {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      background: var(--bg-alt);
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--navy);
-      text-align: left;
-      transition: background .15s;
-    }
-    .sec-toggle:hover { background: #eef2f9; }
-    .sec-toggle .sec-count {
-      font-size: 0.78rem;
-      font-weight: 500;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 99px;
-      padding: 1px 9px;
-      margin-left: 8px;
+    .pub-note {
+      font-size: 0.85rem;
       color: var(--muted);
-    }
-    .sec-toggle .sec-icon {
-      font-size: 1.1rem;
-      color: var(--muted);
-      transition: transform .2s;
-      flex-shrink: 0;
-    }
-    .sec-group.open .sec-icon { transform: rotate(180deg); }
-    .sec-body {
-      display: none;
-      padding: 4px 0 8px;
-      background: var(--bg);
-    }
-    .sec-group.open .sec-body { display: block; }
-    .year-box {
-      margin: 8px 16px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .year-box:last-child { margin-bottom: 8px; }
-    .year-box-label {
-      padding: 9px 18px;
-      background: var(--bg-alt);
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--navy);
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* ── Tag filter ── */
-    .tag { cursor: pointer; transition: opacity .15s, outline .1s; }
-    .tag:hover { opacity: .8; }
-    .tag.tag-active {
-      outline: 2px solid currentColor;
-      outline-offset: 1px;
-    }
-
-    #filter-bar {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
+      margin-bottom: 28px;
       padding: 10px 16px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 10px;
-      font-size: 0.88rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .pub-note span {
+      font-weight: 700;
       color: var(--navy);
     }
-    #filter-bar strong { color: var(--accent); }
-    #filter-clear {
-      margin-left: auto;
-      border: none;
-      background: none;
-      cursor: pointer;
-      font-size: 0.82rem;
-      color: var(--muted);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: inherit;
-    }
-    #filter-clear:hover { background: var(--border); color: var(--navy); }
 
-    .year-box.all-hidden { display: none; }
+    .pub-year-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+      margin: 36px 0 12px;
+    }
+    .pub-year-label:first-of-type { margin-top: 0; }
+
+    .pub-item {
+      display: flex;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      align-items: flex-start;
+    }
+    .pub-item:last-child { border-bottom: none; }
+
+    .pub-item-num {
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+      min-width: 38px;
+      font-size: 0.85rem;
+    }
+
+    .pub-item-body { flex: 1; }
+    .pub-item-title { margin-bottom: 4px; }
+    .pub-item-meta {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+    .pub-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* Preprints section at bottom */
+    .preprint-section {
+      margin-top: 40px;
+      padding-top: 8px;
+      border-top: 2px solid var(--border);
+    }
+    .preprint-section-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
@@ -111,10 +81,11 @@
   <div class="nav-inner">
     <a class="nav-brand" href="/">Hwijae Son</a>
     <a href="/">Home</a>
-    <a href="/publications/" class="active">Publications</a>
+    <a href="/publications-v2/" class="active">Publications</a>
     <a href="/projects/">Projects</a>
     <a href="/students/">Students</a>
     <a href="/talks/">Talks</a>
+    <a href="/travel/">Travel</a>
   </div>
 </nav>
 
@@ -123,590 +94,496 @@
     <h1>Publications</h1>
   </div>
 
-  <div id="filter-bar">
-    <span>Showing: <strong id="filter-label"></strong></span>
-    <button id="filter-clear" onclick="clearFilter()">✕ Clear filter</button>
+  <div class="pub-note">
+    <span>[J]</span> International Journal &nbsp;·&nbsp;
+    <span>[C]</span> Conference Proceedings &nbsp;·&nbsp;
+    <span>[D]</span> Domestic &nbsp;·&nbsp;
+    <span>[P]</span> Preprint
   </div>
 
+  <!-- ── Preprints ── -->
+  <div class="preprint-section" style="margin-top:0; padding-top:0; border-top:none; margin-bottom:40px;">
+    <div class="preprint-section-label">Preprints</div>
 
-  <!-- ══════════════════════════════════
-       PREPRINTS
-  ══════════════════════════════════ -->
-  <div class="sec-group open" id="sec-preprints">
-    <button class="sec-toggle" onclick="toggleSec('sec-preprints')">
-      <span>Preprints <span class="sec-count" id="cnt-preprints"></span></span>
-      <span class="sec-icon">▾</span>
-    </button>
-    <div class="sec-body">
-
-      <div class="pub-item">
-        <div class="pub-item-num">[21]</div>
-        <div class="pub-item-body">
-          <div class="pub-item-title">Knowledge Graph-Based Cultural Heritage Recommendation with Condition-Aware Similarity and Zero-Shot Embedding. with Y. Cha, J. Han, J. Kim, and J. Lee.</div>
-          <div class="pub-tags">
-            <span class="tag tag-ds">Data Science</span>
-            <span class="tag tag-kw-violet">Knowledge Graph</span>
-            <span class="tag tag-kw-rose">Recommender System</span>
-          </div>
+    <div class="pub-item">
+      <div class="pub-item-num">[P5]</div>
+      <div class="pub-item-body">
+        <div class="pub-item-title">Knowledge Graph-Based Cultural Heritage Recommendation with Condition-Aware Similarity and Zero-Shot Embedding. with Y. Cha, J. Han, J. Kim, and J. Lee.</div>
+        <div class="pub-tags">
+          <span class="tag tag-ds">Data Science</span>
+          <span class="tag tag-kw-violet">Knowledge Graph</span>
+          <span class="tag tag-kw-rose">Recommender System</span>
         </div>
       </div>
+    </div>
 
-      <div class="pub-item">
-        <div class="pub-item-num">[20]</div>
-        <div class="pub-item-body">
-          <div class="pub-item-title">KGAGRN: Knowledge graph attention networks for large-scale gene regulatory network inference. with H. Kim and P. J. Seo.</div>
-          <div class="pub-tags">
-            <span class="tag tag-ds">Data Science</span>
-            <span class="tag tag-kw-violet">Knowledge Graph</span>
-            <span class="tag tag-kw-lime">Gene Regulatory Network</span>
-          </div>
+    <div class="pub-item">
+      <div class="pub-item-num">[P4]</div>
+      <div class="pub-item-body">
+        <div class="pub-item-title">KGAGRN: Knowledge graph attention networks for large-scale gene regulatory network inference. with H. Kim and P. J. Seo.</div>
+        <div class="pub-tags">
+          <span class="tag tag-ds">Data Science</span>
+          <span class="tag tag-kw-violet">Knowledge Graph</span>
+          <span class="tag tag-kw-lime">Gene Regulatory Network</span>
         </div>
       </div>
+    </div>
 
-      <div class="pub-item">
-        <div class="pub-item-num">[19]</div>
-        <div class="pub-item-body">
-          <div class="pub-item-title">Adaptive Sobolev training for implicit neural representations. with B. Lim and H. J. Hwang.</div>
-          <div class="pub-tags">
-            <span class="tag tag-piml">Physics-Informed AI</span>
-            <span class="tag tag-kw-indigo">Implicit Neural Representation</span>
-          </div>
+    <div class="pub-item">
+      <div class="pub-item-num">[P3]</div>
+      <div class="pub-item-body">
+        <div class="pub-item-title">Adaptive Sobolev training for implicit neural representations. with B. Lim and H. J. Hwang.</div>
+        <div class="pub-tags">
+          <span class="tag tag-piml">Physics-Informed AI</span>
+          <span class="tag tag-kw-indigo">Implicit Neural Representation</span>
         </div>
       </div>
+    </div>
 
-      <div class="pub-item">
-        <div class="pub-item-num">[18]</div>
-        <div class="pub-item-body">
-          <div class="pub-item-title">Physics-Aware Tensor Field Neural PDE for Climate and Weather Prediction. with N. Cho, S. W. Cho, Y. Hong, H. J. Hwang, and J. Lee.</div>
-          <div class="pub-tags">
-            <span class="tag tag-piml">Physics-Informed AI</span>
-            <span class="tag tag-kw-indigo">Neural Operator</span>
-            <span class="tag tag-kw-sky">Weather Prediction</span>
-          </div>
+    <div class="pub-item">
+      <div class="pub-item-num">[P2]</div>
+      <div class="pub-item-body">
+        <div class="pub-item-title">Physics-Aware Tensor Field Neural PDE for Climate and Weather Prediction. with N. Cho, S. W. Cho, Y. Hong, H. J. Hwang, and J. Lee.</div>
+        <div class="pub-tags">
+          <span class="tag tag-piml">Physics-Informed AI</span>
+          <span class="tag tag-kw-indigo">Neural Operator</span>
+          <span class="tag tag-kw-sky">Weather Prediction</span>
         </div>
       </div>
+    </div>
 
-      <div class="pub-item">
-        <div class="pub-item-num">[17]</div>
-        <div class="pub-item-body">
-          <div class="pub-item-title">Sobolev acceleration for neural networks. with J. K. Oh and H. Lyu.</div>
-          <div class="pub-tags">
-            <span class="tag tag-piml">Physics-Informed AI</span>
-            <span class="tag tag-kw-amber">Optimization</span>
-          </div>
+    <div class="pub-item">
+      <div class="pub-item-num">[P1]</div>
+      <div class="pub-item-body">
+        <div class="pub-item-title">Sobolev acceleration for neural networks. with J. K. Oh and H. Lyu.</div>
+        <div class="pub-tags">
+          <span class="tag tag-piml">Physics-Informed AI</span>
+          <span class="tag tag-kw-amber">Optimization</span>
         </div>
       </div>
-
     </div>
   </div>
 
+  <!-- ── 2026 ── -->
+  <div class="pub-year-label">2026</div>
 
-  <!-- ══════════════════════════════════
-       INTERNATIONAL JOURNALS
-  ══════════════════════════════════ -->
-  <div class="sec-group open" id="sec-intl">
-    <button class="sec-toggle" onclick="toggleSec('sec-intl')">
-      <span>International Journals <span class="sec-count" id="cnt-intl"></span></span>
-      <span class="sec-icon">▾</span>
-    </button>
-    <div class="sec-body">
-
-      <div class="year-box">
-        <div class="year-box-label">2026</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[16]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.aimspress.com/article/doi/10.3934/math.2026609" target="_blank" rel="noopener">Robust identification of multiple point targets in time-domain fluorescence diffuse optical tomography.</a>
-              with J. Eom and J. Kim.
-            </div>
-            <div class="pub-item-meta">AIMS Mathematics, Vol. 11, No. 5: 14791–14819 (2026)</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-teal">Inverse Problem</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[15]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://journals.sagepub.com/doi/10.1177/2167647X261423114" target="_blank" rel="noopener">Enhancing marketing strategies for small businesses: developing a recommender system using offline data.</a>
-              with S. Cho and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Big Data, Vol. 14 (2026)</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-rose">Recommender System</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[14]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.sciencedirect.com/science/article/pii/S0925231225026165" target="_blank" rel="noopener">SoFoNO: Mitigating Spectral Bias in Arbitrary-Scale Image Super-Resolution via Sobolev Fourier Neural Operator.</a>
-              with J. K. Oh, H. J. Hwang, and J. Oh.
-            </div>
-            <div class="pub-item-meta">Neurocomputing, Vol. 661 (2026)</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-indigo">Neural Operator</span>
-              <span class="tag tag-kw-sky">Super-Resolution</span>
-            </div>
-          </div>
-        </div>
-
+  <div class="pub-item">
+    <div class="pub-item-num">[J16]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.aimspress.com/article/doi/10.3934/math.2026609" target="_blank" rel="noopener">Robust identification of multiple point targets in time-domain fluorescence diffuse optical tomography.</a>
+        with J. Eom and J. Kim.
       </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2025</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[13]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://ieeexplore.ieee.org/document/11005528" target="_blank" rel="noopener">ELM-DeepONets: Backpropagation-Free Training of Deep Operator Networks via Extreme Learning Machines.</a>
-              H. Son.
-            </div>
-            <div class="pub-item-meta">IEEE Access, Vol. 13 (2025)</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-indigo">Neural Operator</span>
-            </div>
-          </div>
-        </div>
-
+      <div class="pub-item-meta">AIMS Mathematics, Vol. 11, No. 5: 14791–14819 (2026)</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-teal">Inverse Problem</span>
       </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2024</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[12]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/abs/pinn-approach-for-identifying-governing-parameters-of-noisy-thermoacoustic-systems/49B28B822DA377F83A3DAF28861F2BE0" target="_blank" rel="noopener">A PINN Approach for identifying governing parameters of thermoacoustic oscillations.</a>
-              with M. Lee.
-            </div>
-            <div class="pub-item-meta">Journal of Fluid Mechanics, Vol. 984 (2024)</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-teal">Inverse Problem</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2023</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[11]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://ieeexplore.ieee.org/abstract/document/10305161" target="_blank" rel="noopener">Thermal management model for microprocessors via physics-informed neural networks.</a>
-              with H. Cho and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">IEEE Access, Vol. 11 (2023)</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-teal">Mathematical Modeling</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[10]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.sciencedirect.com/science/article/pii/S0021999123006137" target="_blank" rel="noopener">The deep minimizing movement scheme.</a>
-              with C. Kim, M. S. Park, and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Journal of Computational Physics (2023), 112518</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-amber">Optimization</span>
-              <span class="tag tag-kw-amber">JKO Scheme</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[9]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://intlpress.com/site/pub/pages/journals/items/cms/content/vols/0021/0006/a011/index.php" target="_blank" rel="noopener">Sobolev training for physics-informed neural networks.</a>
-              with J. W. Jang, W. J. Han, and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Communications in Mathematical Sciences, Vol. 21 (2023) (6), pp. 1679–1705</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-amber">Optimization</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[8]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.sciencedirect.com/science/article/pii/S0925231223005477" target="_blank" rel="noopener">Enhanced Physics-Informed Neural Networks with Augmented Lagrangian Relaxation Method (AL-PINNs).</a>
-              with S. W. Cho and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Neurocomputing, Vol. 548 (2023), 126424</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-amber">Optimization</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[7]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://link.springer.com/article/10.1007/s12206-023-0707-z" target="_blank" rel="noopener">Continuous probabilistic solution to the transient self-oscillation under stochastic forcing: a PINN approach.</a>
-              with M. Lee.
-            </div>
-            <div class="pub-item-meta">Journal of Mechanical Science and Technology, Vol. 37 (2023) (8)</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-teal">Inverse Problem</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2022</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[6]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.aimsciences.org/article/doi/10.3934/krm.2021046" target="_blank" rel="noopener">Lagrangian dual framework for conservative neural network solutions of kinetic equations.</a>
-              with H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Kinetic and Related Models, Vol. 15 (2022), pp. 551–568</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2021</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[5]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://link.springer.com/article/10.1007/s10915-021-01621-w" target="_blank" rel="noopener">Traveling wave solutions of partial differential equations via neural networks.</a>
-              with S. W. Cho and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Journal of Scientific Computing, Vol. 89 (2021), 21</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[4]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://ieeexplore.ieee.org/document/9529166" target="_blank" rel="noopener">Explainability of machine learning models for bankruptcy prediction.</a>
-              with M. S. Park, C. Hyun, and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">IEEE Access, Vol. 9 (2021), pp. 124887–124899</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-lime">Explainability</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2020</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[3]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.jmir.org/2020/9/e19907/" target="_blank" rel="noopener">Real-World implications of a rapidly responsive COVID-19 spread model with time-dependent parameters via deep learning.</a>
-              with H. Jo, S. Y. Jung, and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Journal of Medical Internet Research, Vol. 22 (2020), e19907</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-rose">Epidemiology</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[2]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.aimsciences.org/article/doi/10.3934/nhm.2020011" target="_blank" rel="noopener">Deep neural network approach to forward-inverse problems.</a>
-              with H. Jo, H. J. Hwang, and E. H. Kim.
-            </div>
-            <div class="pub-item-meta">Networks and Heterogeneous Media, Vol. 15 (2020), pp. 247–259</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-teal">Inverse Problem</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2019</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[1]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.sciencedirect.com/science/article/pii/S0957417419305123" target="_blank" rel="noopener">Data analytic approach for bankruptcy prediction.</a>
-              with C. Hyun, D. Phan, and H. J. Hwang.
-            </div>
-            <div class="pub-item-meta">Expert Systems with Applications, Vol. 138 (2019), 112816</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-lime">Explainability</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════
-       CONFERENCE PROCEEDINGS
-  ══════════════════════════════════ -->
-  <div class="sec-group open" id="sec-conf">
-    <button class="sec-toggle" onclick="toggleSec('sec-conf')">
-      <span>Conference Proceedings <span class="sec-count" id="cnt-conf"></span></span>
-      <span class="sec-icon">▾</span>
-    </button>
-    <div class="sec-body">
-
-      <div class="year-box">
-        <div class="year-box-label">2025</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[4]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://openreview.net/forum?id=0FxnSZJPmh" target="_blank" rel="noopener">Physics-Informed Deep Inverse Operator Networks for Solving PDE Inverse Problems.</a>
-              with S. W. Cho.
-            </div>
-            <div class="pub-item-meta">ICLR 2025</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-teal">Inverse Problem</span>
-              <span class="tag tag-kw-indigo">Neural Operator</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[3]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://ieeexplore.ieee.org/abstract/document/11388768" target="_blank" rel="noopener">Completing Cultural Heritage Knowledge Graphs Using GraIL-Based Inductive Reasoning.</a>
-              with J. Han, J. Kim, and J. Lee.
-            </div>
-            <div class="pub-item-meta">ICTC 2025</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-violet">Knowledge Graph</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[2]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://ieeexplore.ieee.org/abstract/document/11388744" target="_blank" rel="noopener">Condition-Aware Cultural Heritage Recommender System Using Knowledge Graph.</a>
-              with Y. Cha, Y. Kim, J. Kim, and J. Lee.
-            </div>
-            <div class="pub-item-meta">ICTC 2025</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-rose">Recommender System</span>
-              <span class="tag tag-kw-violet">Knowledge Graph</span>
-            </div>
-          </div>
-        </div>
-
+  <div class="pub-item">
+    <div class="pub-item-num">[J15]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://journals.sagepub.com/doi/10.1177/2167647X261423114" target="_blank" rel="noopener">Enhancing marketing strategies for small businesses: developing a recommender system using offline data.</a>
+        with S. Cho and H. J. Hwang.
       </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2024</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[1]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              (Poster) Cultural Heritage Knowledge Graph and Recommender System. with Jae Seung Kim, Jiwon Lee.
-              <a href="https://ieeexplore.ieee.org/abstract/document/10827123/" target="_blank" rel="noopener">ICTC 2024</a>
-            </div>
-            <div class="pub-item-meta">ICTC 2024</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-violet">Knowledge Graph</span>
-              <span class="tag tag-kw-rose">Recommender System</span>
-            </div>
-          </div>
-        </div>
-
+      <div class="pub-item-meta">Big Data, Vol. 14 (2026)</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-rose">Recommender System</span>
       </div>
-
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════
-       DOMESTIC JOURNALS
-  ══════════════════════════════════ -->
-  <div class="sec-group open" id="sec-domestic">
-    <button class="sec-toggle" onclick="toggleSec('sec-domestic')">
-      <span>Domestic Journals &amp; Conference Proceedings <span class="sec-count" id="cnt-domestic"></span></span>
-      <span class="sec-icon">▾</span>
-    </button>
-    <div class="sec-body">
-
-      <div class="year-box">
-        <div class="year-box-label">2025</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[7]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">지식그래프 기반의 문화유산 추천시스템. with Sung Woong Cho, Jong Kwon Oh, Jiwon Lee.</div>
-            <div class="pub-item-meta">정보과학회 컴퓨팅의 실제 학술지, 2025.02</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-violet">Knowledge Graph</span>
-              <span class="tag tag-kw-rose">Recommender System</span>
-            </div>
-          </div>
-        </div>
-
+  <div class="pub-item">
+    <div class="pub-item-num">[J14]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.sciencedirect.com/science/article/pii/S0925231225026165" target="_blank" rel="noopener">SoFoNO: Mitigating Spectral Bias in Arbitrary-Scale Image Super-Resolution via Sobolev Fourier Neural Operator.</a>
+        with J. K. Oh, H. J. Hwang, and J. Oh.
       </div>
-
-      <div class="year-box">
-        <div class="year-box-label">2024</div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[6]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              (Poster) Causality Inverse PINNs: Respecting causality for solving inverse problems. with Jae Seung Kim.
-              <a href="https://ksiam.org/Conference/ConferenceView.asp?AC=0&CODE=CC20240701&B_CATE=BBC1" target="_blank" rel="noopener">KSIAM 2024 Annual Meeting</a>
-            </div>
-            <div class="pub-item-meta">2024 <span class="tag tag-award">🏆 우수포스터상</span></div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-teal">Inverse Problem</span>
-            </div>
-          </div>
-        </div>
-
+      <div class="pub-item-meta">Neurocomputing, Vol. 661 (2026)</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-indigo">Neural Operator</span>
+        <span class="tag tag-kw-sky">Super-Resolution</span>
       </div>
+    </div>
+  </div>
 
-      <div class="year-box">
-        <div class="year-box-label">2023</div>
+  <!-- ── 2025 ── -->
+  <div class="pub-year-label">2025</div>
 
-        <div class="pub-item">
-          <div class="pub-item-num">[5]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              (Poster) 문화유산 온톨로지 지식그래프 기반의 문화유산 추천시스템. with Seungjae Jeon, Jong Kwon Oh.
-              <a href="https://www.kiise.or.kr/academy/board/academyNewsView.fa?MENU_ID=080100&sch_add_bd=%ED%95%99%ED%9A%8C%EC%86%8C%EC%8B%9D&NUM=2510" target="_blank" rel="noopener">KSC 2023</a>
-            </div>
-            <div class="pub-item-meta">2023 <span class="tag tag-award">🏆 우수발표논문상</span></div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-violet">Knowledge Graph</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[4]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              (Poster) Cultural heritage recommender system based on cultural heritage ontology knowledge graph. with Seungjae Jeon, Seong Ji Lee, Jong Kwon Oh, Min Kyoung Seo, Jiwon Lee. 한국인공지능학회 추계학술대회
-            </div>
-            <div class="pub-item-meta">2023</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-violet">Knowledge Graph</span>
-              <span class="tag tag-kw-rose">Recommender System</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[3]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              (Poster) Sobolev acceleration for neural networks. 한국산업응용수학회 추계학술대회
-            </div>
-            <div class="pub-item-meta">2023</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw-amber">Optimization</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[2]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">비지도 학습을 활용한 공유 전동킥보드 배터리 교체 알고리즘 제안. with Seung Jae Jeon and Eunkyung Kim.</div>
-            <div class="pub-item-meta">제 4회 한국 인공지능 학술대회 (2023)</div>
-            <div class="pub-tags">
-              <span class="tag tag-ds">Data Science</span>
-              <span class="tag tag-kw-amber">Clustering</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="pub-item">
-          <div class="pub-item-num">[1]</div>
-          <div class="pub-item-body">
-            <div class="pub-item-title">
-              <a href="https://www.theieie.org/pages_publication/academic_journal.vm" target="_blank" rel="noopener">물리 정보 기계학습의 발전 및 응용.</a>
-              with J. Lee.
-            </div>
-            <div class="pub-item-meta">전자공학회지, Vol. 50 (2023), pp. 50–59</div>
-            <div class="pub-tags">
-              <span class="tag tag-piml">Physics-Informed AI</span>
-              <span class="tag tag-kw">Survey</span>
-            </div>
-          </div>
-        </div>
-
+  <div class="pub-item">
+    <div class="pub-item-num">[J13]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://ieeexplore.ieee.org/document/11005528" target="_blank" rel="noopener">ELM-DeepONets: Backpropagation-Free Training of Deep Operator Networks via Extreme Learning Machines.</a>
+        H. Son.
       </div>
+      <div class="pub-item-meta">IEEE Access, Vol. 13 (2025)</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-indigo">Neural Operator</span>
+      </div>
+    </div>
+  </div>
 
+  <div class="pub-item">
+    <div class="pub-item-num">[C1]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://openreview.net/forum?id=0FxnSZJPmh" target="_blank" rel="noopener">Physics-Informed Deep Inverse Operator Networks for Solving PDE Inverse Problems.</a>
+        with S. W. Cho.
+      </div>
+      <div class="pub-item-meta">ICLR 2025</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-teal">Inverse Problem</span>
+        <span class="tag tag-kw-indigo">Neural Operator</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D10]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://ieeexplore.ieee.org/abstract/document/11388768" target="_blank" rel="noopener">Completing Cultural Heritage Knowledge Graphs Using GraIL-Based Inductive Reasoning.</a>
+        with J. Han, J. Kim, and J. Lee.
+      </div>
+      <div class="pub-item-meta">ICTC 2025</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-violet">Knowledge Graph</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D9]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://ieeexplore.ieee.org/abstract/document/11388744" target="_blank" rel="noopener">Condition-Aware Cultural Heritage Recommender System Using Knowledge Graph.</a>
+        with Y. Cha, Y. Kim, J. Kim, and J. Lee.
+      </div>
+      <div class="pub-item-meta">ICTC 2025</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-rose">Recommender System</span>
+        <span class="tag tag-kw-violet">Knowledge Graph</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D8]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">지식그래프 기반의 문화유산 추천시스템. with Sung Woong Cho, Jong Kwon Oh, Jiwon Lee.</div>
+      <div class="pub-item-meta">정보과학회 컴퓨팅의 실제 학술지, 2025.02</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-violet">Knowledge Graph</span>
+        <span class="tag tag-kw-rose">Recommender System</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2024 ── -->
+  <div class="pub-year-label">2024</div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J12]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/abs/pinn-approach-for-identifying-governing-parameters-of-noisy-thermoacoustic-systems/49B28B822DA377F83A3DAF28861F2BE0" target="_blank" rel="noopener">A PINN Approach for identifying governing parameters of thermoacoustic oscillations.</a>
+        with M. Lee.
+      </div>
+      <div class="pub-item-meta">Journal of Fluid Mechanics, Vol. 984 (2024)</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-teal">Inverse Problem</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D7]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        (Poster) Causality Inverse PINNs: Respecting causality for solving inverse problems. with Jae Seung Kim.
+        <a href="https://ksiam.org/Conference/ConferenceView.asp?AC=0&CODE=CC20240701&B_CATE=BBC1" target="_blank" rel="noopener">KSIAM 2024 Annual Meeting</a>
+      </div>
+      <div class="pub-item-meta">2024 &nbsp;<span class="tag tag-award">🏆 우수포스터상</span></div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-teal">Inverse Problem</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D6]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        (Poster) Cultural Heritage Knowledge Graph and Recommender System. with Jae Seung Kim, Jiwon Lee.
+        <a href="https://ieeexplore.ieee.org/abstract/document/10827123/" target="_blank" rel="noopener">ICTC 2024</a>
+      </div>
+      <div class="pub-item-meta">ICTC 2024</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-violet">Knowledge Graph</span>
+        <span class="tag tag-kw-rose">Recommender System</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2023 ── -->
+  <div class="pub-year-label">2023</div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J11]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://ieeexplore.ieee.org/abstract/document/10305161" target="_blank" rel="noopener">Thermal management model for microprocessors via physics-informed neural networks.</a>
+        with H. Cho and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">IEEE Access, Vol. 11 (2023)</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-teal">Mathematical Modeling</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J10]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.sciencedirect.com/science/article/pii/S0021999123006137" target="_blank" rel="noopener">The deep minimizing movement scheme.</a>
+        with C. Kim, M. S. Park, and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">Journal of Computational Physics (2023), 112518</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-amber">Optimization</span>
+        <span class="tag tag-kw-amber">JKO Scheme</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J9]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://intlpress.com/site/pub/pages/journals/items/cms/content/vols/0021/0006/a011/index.php" target="_blank" rel="noopener">Sobolev training for physics-informed neural networks.</a>
+        with J. W. Jang, W. J. Han, and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">Communications in Mathematical Sciences, Vol. 21 (2023) (6), pp. 1679–1705</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-amber">Optimization</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J8]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.sciencedirect.com/science/article/pii/S0925231223005477" target="_blank" rel="noopener">Enhanced Physics-Informed Neural Networks with Augmented Lagrangian Relaxation Method (AL-PINNs).</a>
+        with S. W. Cho and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">Neurocomputing, Vol. 548 (2023), 126424</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-amber">Optimization</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J7]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://link.springer.com/article/10.1007/s12206-023-0707-z" target="_blank" rel="noopener">Continuous probabilistic solution to the transient self-oscillation under stochastic forcing: a PINN approach.</a>
+        with M. Lee.
+      </div>
+      <div class="pub-item-meta">Journal of Mechanical Science and Technology, Vol. 37 (2023) (8)</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-teal">Inverse Problem</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D5]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        (Poster) 문화유산 온톨로지 지식그래프 기반의 문화유산 추천시스템. with Seungjae Jeon, Jong Kwon Oh.
+        <a href="https://www.kiise.or.kr/academy/board/academyNewsView.fa?MENU_ID=080100&sch_add_bd=%ED%95%99%ED%9A%8C%EC%86%8C%EC%8B%9D&NUM=2510" target="_blank" rel="noopener">KSC 2023</a>
+      </div>
+      <div class="pub-item-meta">2023 &nbsp;<span class="tag tag-award">🏆 우수발표논문상</span></div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-violet">Knowledge Graph</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D4]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">(Poster) Cultural heritage recommender system based on cultural heritage ontology knowledge graph. with Seungjae Jeon, Seong Ji Lee, Jong Kwon Oh, Min Kyoung Seo, Jiwon Lee. 한국인공지능학회 추계학술대회</div>
+      <div class="pub-item-meta">2023</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-violet">Knowledge Graph</span>
+        <span class="tag tag-kw-rose">Recommender System</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D3]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">(Poster) Sobolev acceleration for neural networks. 한국산업응용수학회 추계학술대회</div>
+      <div class="pub-item-meta">2023</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-amber">Optimization</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D2]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">비지도 학습을 활용한 공유 전동킥보드 배터리 교체 알고리즘 제안. with Seung Jae Jeon and Eunkyung Kim.</div>
+      <div class="pub-item-meta">제 4회 한국 인공지능 학술대회 (2023)</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-amber">Clustering</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[D1]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.theieie.org/pages_publication/academic_journal.vm" target="_blank" rel="noopener">물리 정보 기계학습의 발전 및 응용.</a>
+        with J. Lee.
+      </div>
+      <div class="pub-item-meta">전자공학회지, Vol. 50 (2023), pp. 50–59</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw">Survey</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2022 ── -->
+  <div class="pub-year-label">2022</div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J6]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.aimsciences.org/article/doi/10.3934/krm.2021046" target="_blank" rel="noopener">Lagrangian dual framework for conservative neural network solutions of kinetic equations.</a>
+        with H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">Kinetic and Related Models, Vol. 15 (2022), pp. 551–568</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2021 ── -->
+  <div class="pub-year-label">2021</div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J5]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://link.springer.com/article/10.1007/s10915-021-01621-w" target="_blank" rel="noopener">Traveling wave solutions of partial differential equations via neural networks.</a>
+        with S. W. Cho and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">Journal of Scientific Computing, Vol. 89 (2021), 21</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J4]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://ieeexplore.ieee.org/document/9529166" target="_blank" rel="noopener">Explainability of machine learning models for bankruptcy prediction.</a>
+        with M. S. Park, C. Hyun, and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">IEEE Access, Vol. 9 (2021), pp. 124887–124899</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-lime">Explainability</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2020 ── -->
+  <div class="pub-year-label">2020</div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J3]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.jmir.org/2020/9/e19907/" target="_blank" rel="noopener">Real-World implications of a rapidly responsive COVID-19 spread model with time-dependent parameters via deep learning.</a>
+        with H. Jo, S. Y. Jung, and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">Journal of Medical Internet Research, Vol. 22 (2020), e19907</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-rose">Epidemiology</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J2]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.aimsciences.org/article/doi/10.3934/nhm.2020011" target="_blank" rel="noopener">Deep neural network approach to forward-inverse problems.</a>
+        with H. Jo, H. J. Hwang, and E. H. Kim.
+      </div>
+      <div class="pub-item-meta">Networks and Heterogeneous Media, Vol. 15 (2020), pp. 247–259</div>
+      <div class="pub-tags">
+        <span class="tag tag-piml">Physics-Informed AI</span>
+        <span class="tag tag-kw-teal">Inverse Problem</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2019 ── -->
+  <div class="pub-year-label">2019</div>
+
+  <div class="pub-item">
+    <div class="pub-item-num">[J1]</div>
+    <div class="pub-item-body">
+      <div class="pub-item-title">
+        <a href="https://www.sciencedirect.com/science/article/pii/S0957417419305123" target="_blank" rel="noopener">Data analytic approach for bankruptcy prediction.</a>
+        with C. Hyun, D. Phan, and H. J. Hwang.
+      </div>
+      <div class="pub-item-meta">Expert Systems with Applications, Vol. 138 (2019), 112816</div>
+      <div class="pub-tags">
+        <span class="tag tag-ds">Data Science</span>
+        <span class="tag tag-kw-lime">Explainability</span>
+      </div>
     </div>
   </div>
 
@@ -716,85 +593,6 @@
 <footer>
   &copy; 2026 Hwijae Son · Konkuk University
 </footer>
-
-<script>
-  let activeFilter = null;
-
-  function toggleSec(id) {
-    document.getElementById(id).classList.toggle('open');
-    updateCounts();
-  }
-
-  function updateCounts() {
-    const map = {
-      'sec-preprints': 'cnt-preprints',
-      'sec-intl':      'cnt-intl',
-      'sec-conf':      'cnt-conf',
-      'sec-domestic':  'cnt-domestic',
-    };
-    for (const [secId, cntId] of Object.entries(map)) {
-      const sec = document.getElementById(secId);
-      const el  = document.getElementById(cntId);
-      if (!sec || !el) continue;
-      const visible = [...sec.querySelectorAll('.pub-item')].filter(i => !i.classList.contains('hidden')).length;
-      el.textContent = visible;
-    }
-    // Hide year-boxes where all items are hidden
-    document.querySelectorAll('.year-box').forEach(box => {
-      const anyVisible = [...box.querySelectorAll('.pub-item')].some(i => !i.classList.contains('hidden'));
-      box.classList.toggle('all-hidden', !anyVisible);
-    });
-  }
-
-  // Tag click — event delegation
-  document.addEventListener('click', function(e) {
-    const tag = e.target.closest('.tag');
-    if (!tag) return;
-
-    const tagClass = [...tag.classList].find(c => c !== 'tag');
-    if (!tagClass) return;
-
-    if (activeFilter === tagClass) {
-      clearFilter();
-    } else {
-      applyFilter(tagClass, tag.textContent.trim());
-    }
-  });
-
-  function applyFilter(tagClass, label) {
-    activeFilter = tagClass;
-
-    // Expand all sections
-    document.querySelectorAll('.sec-group').forEach(s => s.classList.add('open'));
-
-    // Show/hide items
-    document.querySelectorAll('.pub-item').forEach(item => {
-      item.classList.toggle('hidden', !item.querySelector('.' + tagClass));
-    });
-
-    // Highlight active tags
-    document.querySelectorAll('.tag').forEach(t => {
-      t.classList.toggle('tag-active', t.classList.contains(tagClass));
-    });
-
-    // Show filter bar
-    document.getElementById('filter-label').textContent = label;
-    document.getElementById('filter-bar').style.display = 'flex';
-
-    updateCounts();
-  }
-
-  function clearFilter() {
-    activeFilter = null;
-    document.querySelectorAll('.pub-item').forEach(i => i.classList.remove('hidden'));
-    document.querySelectorAll('.tag').forEach(t => t.classList.remove('tag-active'));
-    document.querySelectorAll('.year-box').forEach(b => b.classList.remove('all-hidden'));
-    document.getElementById('filter-bar').style.display = 'none';
-    updateCounts();
-  }
-
-  updateCounts();
-</script>
 
 </body>
 </html>
